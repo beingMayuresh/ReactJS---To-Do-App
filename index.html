@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+  <title>ToDoApp</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+	<script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
+	<script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+	
+</head>
+  
+<body>
+  
+  <div id="container">
+  
+  </div>
+  
+  <script type="text/babel">
+    var destination = document.getElementById('container');
+
+	
+
+	var TodoItems = React.createClass({
+	  render: function() {
+	    var todoEntries = this.props.entries;
+	 
+	    function createTasks(item) {
+	      return <li key={item.key}>{item.text}</li>
+	    }
+	 
+	    var listItems = todoEntries.map(createTasks);
+	    return (
+	      <ol className="theList">
+	        {listItems}
+	      </ol>
+	    );
+	  }
+	});
+
+
+	var TodoList = React.createClass({
+		
+		getInitialState: function() {
+		    return {
+		      items: []
+		    };
+		  },
+
+		
+
+		  addItem: function(e) {
+			  var itemArray = this.state.items;
+			   
+			  itemArray.push(
+			    {
+			      text: this._inputElement.value,
+			      key: Date.now()
+			    }
+			  );
+			
+			
+
+			  this.setState({
+			    items: itemArray
+			  });
+			  
+			  this._inputElement.value = "";
+			 
+			  e.preventDefault();
+			},
+
+		
+
+	  render: function() {
+	      return (
+	        <div className="container-fluid">
+	          <div className="row">
+	          	<div className="col-md-4">
+	          		<h1>To Do App</h1>
+	            	<form className="form-inline" onSubmit={this.addItem}>
+	              	<input ref={(a) => this._inputElement = a}
+                   	placeholder="enter task" className="form-control">
+            		</input>
+	              <button type="submit" className="btn btn-success">add</button>
+	            </form>
+	            </div>
+	          </div>
+	          <TodoItems entries={this.state.items}/>
+	        </div>
+	      );
+	    }
+	});
+  
+    ReactDOM.render(
+      <TodoList/>,
+      destination
+    );
+  </script>
+</body>
+  
+</html>
